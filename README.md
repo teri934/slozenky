@@ -1,2 +1,2 @@
 # Slozenky
-zapoctovy program nprg030
+Tento zápočtový program vypíše zadané číslo zo vstupu slovom.
