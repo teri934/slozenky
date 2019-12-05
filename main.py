@@ -82,8 +82,11 @@ def prevod2(pocet, x):
                 if sablona2[podiel - 1] == 'tisíc':
                     x += zoznam[hodnota][0] + sablona2[0]
         else:
-            if podiel - 1 != 0:
-                x += prevod1(trojice, hodnota, x) + ' ' + sablona2[podiel - 1] + ' '   #ak je to > 19, pouzije prevod1 a da hodnote rad
+            if podiel - 1 != 0:                                #TREBA ESTE SKLONOVANIE PRE MILIONY A MILIARDY
+                if sablona2[podiel - 1] == 'milión':
+                    x += prevod1(trojice, hodnota, x) + ' miliónov '
+                else:
+                    x += prevod1(trojice, hodnota, x) + ' miliárd '   #ak je to > 19, pouzije prevod1 a da hodnote rad
             else:                                                                     #podmienka pre vypisovanie medzier pre miliony a miliardy
                 x += prevod1(trojice, hodnota, x) + sablona2[podiel - 1] 
         hodnota = ''
@@ -113,7 +116,12 @@ def prevod2(pocet, x):
 
 def prevod(zoznam):
     x = ''
+    minus = False
     hodnota = input()
+    hodnota = ''.join(hodnota.split())
+    if '-' in hodnota:
+            minus = True
+            hodnota = hodnota[1:]
     try: 
         hodnota = int(hodnota)
     except: 
@@ -121,6 +129,9 @@ def prevod(zoznam):
             return('Koniec')
         else:
             return('Nesprávny údaj.')
+    if minus:
+        print('mínus ', end = '')
+        print
     hodnota = int(hodnota)
     if hodnota <= 19:         #ak je cislo mensie ako 20, tak rovno vypisem kompletne cislo zo zoznamu
         vysledok = zoznam[hodnota][0]
@@ -136,7 +147,8 @@ def prevod(zoznam):
 
 
 zoznam = sablona1()
-print('Zadaj postupne čísla, ktoré chceš vypísať. Pokiaľ zadáš niečo, čo nie je číslo, tak to program oznámi. Ak chceš skončiť, napíš "Koniec".')
+#print(zoznam)
+print('Zadaj postupne celé čísla v rozsahu milliárd, ktoré chceš vypísať. Pokiaľ zadáš niečo, čo nie je číslo, tak to program oznámi. Ak chceš skončiť, napíš "Koniec".')
 while True:
     vypis = prevod(zoznam)
     if vypis == 'Koniec':
