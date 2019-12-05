@@ -1,2 +1,2 @@
 # Slozenky
-Tento zápočtový program vypíše zadané číslo zo vstupu slovom. Pri veľkých číslach začne zaokrúhľovať.
+Tento zápočtový program vypíše zadané celé číslo zo vstupu slovom. Pokračuje, kým užívateľ nezadá koniec.
