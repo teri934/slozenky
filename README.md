@@ -9,3 +9,7 @@ Príklad platného vstupu.
 
 A jeho výstup.
 ![1](Pictures/1.png)
+
+
+Príklad neplatného vstupu a jeho výstup.
+![3](Pictures/3.png)
