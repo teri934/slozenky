@@ -7,17 +7,17 @@ def sablona1():
     for cislo in cisla:
         while i < len(zoznam):
             zoznam[i].append(cislo)
-            if i > 0 and i < 5:
+            if 0 < i < 5:
                 zoznam[i].append('dsať')
-            if i > 4 and i < 10:
+            if 4 < i < 10:
                 zoznam[i].append('desiat')
-            if i > 0 and i < 10:
+            if 0 < i < 10:
                 zoznam[i].append('sto')
             i += 1
             break
     return zoznam
 
-def prevod1(pocet, hodnota, x):
+def prevod1(pocet, x):
     rad = len(pocet) - 1
     for i in range (len(pocet)):
         hodnota = int(pocet[i])
@@ -29,7 +29,7 @@ def prevod1(pocet, hodnota, x):
                 x += zoznam[int(str(hodnota)+str(pocet[i+1]))][0]  #podmienka pre viacciferne cisla s konecnymi 10 az 19
                 rad -= 1
                 break
-            elif hodnota == 1 and rad == len(pocet) - 1:     #podmienka, ze nebude na zaciatku vypisovat cislovku jedna 
+            elif hodnota == 1 and rad == len(pocet) - 1:     #podmienka, ze nebude na zaciatku vypisovat cislovku jedna
                 x += zoznam[hodnota][rad]
                 rad -= 1
             elif hodnota == 2 and rad == len(pocet) - 1 and rad > 1:      #podmienka pre cislovku 200, aby vypisalo dvesto a nie dvasto + osetrenie pre 20, lebo to ma zostat povodne
@@ -61,7 +61,7 @@ def prevod2(pocet, x):
                     x += zoznam[hodnota][0] + ' ' + sablona2[podiel - 1] + ' '
                 else:
                     x += zoznam[hodnota][0] + sablona2[podiel - 1]
-            elif hodnota > 1 and hodnota < 5:
+            elif 1 < hodnota < 5:
                 if sablona2[podiel - 1] == 'milión':
                     x += zoznam[hodnota][0] + ' milióny '
                 if sablona2[podiel - 1] == 'miliarda':
@@ -84,18 +84,18 @@ def prevod2(pocet, x):
         else:
             if podiel - 1 != 0:                                #TREBA ESTE SKLONOVANIE PRE MILIONY A MILIARDY
                 if sablona2[podiel - 1] == 'milión':
-                    x += prevod1(trojice, hodnota, x) + ' miliónov '
+                    x += prevod1(trojice, x) + ' miliónov '
                 else:
-                    x += prevod1(trojice, hodnota, x) + ' miliárd '   #ak je to > 19, pouzije prevod1 a da hodnote rad
+                    x += prevod1(trojice, x) + ' miliárd '   #ak je to > 19, pouzije prevod1 a da hodnote rad
             else:                                                                     #podmienka pre vypisovanie medzier pre miliony a miliardy
-                x += prevod1(trojice, hodnota, x) + sablona2[podiel - 1] 
+                x += prevod1(trojice, x) + sablona2[podiel - 1]
         hodnota = ''
     for i in range(podiel):      #pre jednotlive trojice vola prevod1 a priradi im prislusny rad
         trojice = pocet[zvysok + 3*i:zvysok + 3*i + 3]
         for q in trojice:
             hodnota += str(q)
         hodnota = int(hodnota)
-        subvysledok = prevod1(trojice, hodnota, x)
+        subvysledok = prevod1(trojice, x)
         x = ''                                          #x sa muselo 'vynulovat', lebo kvoli rekurzii dochadzalo k opakovaniu udajov
         if i == podiel - 1:
             return subvysledok
@@ -110,7 +110,7 @@ def prevod2(pocet, x):
                 else:
                     x += subvysledok + ' miliárd '
             else:
-                x += subvysledok + sablona2[podiel - 2 - i] 
+                x += subvysledok + sablona2[podiel - 2 - i]
         hodnota = ''
 
 
@@ -122,25 +122,24 @@ def prevod(zoznam):
     if '-' in hodnota:
             minus = True
             hodnota = hodnota[1:]
-    try: 
+    try:
         hodnota = int(hodnota)
-    except: 
+    except:
         if hodnota == 'Koniec':
-            return('Koniec')
+            return 'Koniec'
         else:
-            return('Nesprávny údaj.')
+            return 'Nesprávny údaj.'
     if minus:
         print('mínus ', end = '')
-        print
-    if hodnota > 999999999999:            #ak je cislo vacsie ako 999 miliard
-        return('Prekročený rozsah.')
+    if hodnota > 999_999_999_999:            #ak je cislo vacsie ako 999 miliard
+        return 'Prekročený rozsah.'
     hodnota = int(hodnota)
     if hodnota <= 19:         #ak je cislo mensie ako 20, tak rovno vypisem kompletne cislo zo zoznamu
         vysledok = zoznam[hodnota][0]
     else:
         pocet = list(str(hodnota))
         if len(pocet) <= 3:    #ak je cislo trociferne a mensie, urobi prevod1
-            vysledok = prevod1(pocet, hodnota, x)
+            vysledok = prevod1(pocet, x)
         if len(pocet) > 3:      #ak je vacsie ako trojciferne, urobi prevod2
             vysledok = prevod2(pocet, x)
     return vysledok
@@ -150,7 +149,7 @@ def prevod(zoznam):
 
 zoznam = sablona1()
 #print(zoznam)
-print('Zadaj postupne celé čísla v rozsahu milliárd, ktoré chceš vypísať. Pokiaľ zadáš niečo, čo nie je číslo, tak to program oznámi. Ak chceš skončiť, napíš "Koniec".')
+print('Zadaj postupne celé čísla v rozsahu miliárd, ktoré chceš vypísať. Pokiaľ zadáš niečo, čo nie je číslo, tak to program oznámi. Ak chceš skončiť, napíš "Koniec".')
 while True:
     vypis = prevod(zoznam)
     if vypis == 'Koniec':
